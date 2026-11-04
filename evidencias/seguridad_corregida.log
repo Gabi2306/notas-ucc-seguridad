@@ -1,0 +1,12 @@
+2026-11-04 12:54:50,613 WARNING login_fallido ip=127.0.0.1 usuario='ana'
+2026-11-04 12:54:50,620 WARNING login_fallido ip=127.0.0.1 usuario="luis' --"
+2026-11-04 12:54:50,863 INFO login_ok usuario_id=2
+2026-11-04 12:54:50,872 WARNING acceso_denegado usuario_id=2 nota_id=2 dueno=1
+2026-11-04 12:54:51,134 INFO login_ok usuario_id=1
+2026-11-04 12:54:51,370 WARNING login_fallido ip=127.0.0.1 usuario='ana'
+2026-11-04 12:54:51,633 WARNING login_fallido ip=127.0.0.1 usuario='ana'
+2026-11-04 12:54:51,871 WARNING login_fallido ip=127.0.0.1 usuario='ana'
+2026-11-04 12:54:52,094 WARNING login_fallido ip=127.0.0.1 usuario='ana'
+2026-11-04 12:54:52,364 WARNING login_fallido ip=127.0.0.1 usuario='ana'
+2026-11-04 12:54:52,369 WARNING login_bloqueado_rate_limit ip=127.0.0.1
+2026-11-04 12:54:52,376 WARNING login_bloqueado_rate_limit ip=127.0.0.1

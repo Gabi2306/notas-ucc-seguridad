@@ -1,0 +1,64 @@
+Run started:2026-11-04 18:23:54.535788+00:00
+
+Test results:
+>> Issue: [B105:hardcoded_password_string] Possible hardcoded password: 'clave-de-laboratorio-no-usar-en-produccion'
+   Severity: Low   Confidence: Medium
+   CWE: CWE-259 (https://cwe.mitre.org/data/definitions/259.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b105_hardcoded_password_string.html
+   Location: app_vulnerable\app.py:6:17
+5	app = Flask(__name__)
+6	app.secret_key = "clave-de-laboratorio-no-usar-en-produccion"
+7	DB = "notas.db"
+
+--------------------------------------------------
+>> Issue: [B608:hardcoded_sql_expressions] Possible SQL injection vector through string-based query construction.
+   Severity: Medium   Confidence: Low
+   CWE: CWE-89 (https://cwe.mitre.org/data/definitions/89.html)
+   More Info: https://bandit.readthedocs.io/en/1.9.4/plugins/b608_hardcoded_sql_expressions.html
+   Location: app_vulnerable\app.py:49:17
+48	    # Vulnerable: la entrada se concatena en el SQL
+49	    consulta = f"SELECT id, usuario FROM usuarios WHERE usuario = '{usuario}' AND clave = '{clave}'"
+50	    fila = db.execute(consulta).fetchone()
+
+--------------------------------------------------
+
+Code scanned:
+	Total lines of code: 58
+	Total lines skipped (#nosec): 0
+	Total potential issues skipped due to specifically being disabled (e.g., #nosec BXXX): 0
+
+Run metrics:
+	Total issues (by severity):
+		Undefined: 0
+		Low: 1
+		Medium: 1
+		High: 0
+	Total issues (by confidence):
+		Undefined: 0
+		Low: 1
+		Medium: 1
+		High: 0
+Files skipped (0):
+Run started:2026-11-04 18:24:07.985511+00:00
+
+Test results:
+	No issues identified.
+
+Code scanned:
+	Total lines of code: 130
+	Total lines skipped (#nosec): 0
+	Total potential issues skipped due to specifically being disabled (e.g., #nosec BXXX): 0
+
+Run metrics:
+	Total issues (by severity):
+		Undefined: 0
+		Low: 0
+		Medium: 0
+		High: 0
+	Total issues (by confidence):
+		Undefined: 0
+		Low: 0
+		Medium: 0
+		High: 0
+Files skipped (0):
+No known vulnerabilities found

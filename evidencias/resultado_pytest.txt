@@ -1,0 +1,36 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.2, pytest-9.2.0, pluggy-1.7.0 -- C:\Python313\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\EQUIPO\Desktop\8\optativa\Notas_UCC_Proyecto_Final\Notas_UCC_Proyecto_Final
+plugins: anyio-4.13.0, platformdirs-4.14.5
+collecting ... collected 18 items
+
+pruebas/test_seguridad.py::test_v1_sqli_funciona_en_vulnerable[ana-' OR '1'='1] PASSED [  5%]
+pruebas/test_seguridad.py::test_v1_sqli_funciona_en_vulnerable[luis' ---x] PASSED [ 11%]
+pruebas/test_seguridad.py::test_v1_sqli_funciona_en_vulnerable[' OR 1=1 ---x] PASSED [ 16%]
+pruebas/test_seguridad.py::test_v1_sqli_suplanta_cuenta_concreta_en_vulnerable PASSED [ 22%]
+pruebas/test_seguridad.py::test_v1_sqli_bloqueada_en_corregida[ana-' OR '1'='1] PASSED [ 27%]
+pruebas/test_seguridad.py::test_v1_sqli_bloqueada_en_corregida[luis' ---x] PASSED [ 33%]
+pruebas/test_seguridad.py::test_v1_sqli_bloqueada_en_corregida[' OR 1=1 ---x] PASSED [ 38%]
+pruebas/test_seguridad.py::test_v1_claves_guardadas_con_hash PASSED      [ 44%]
+pruebas/test_seguridad.py::test_v2_bola_funciona_en_vulnerable PASSED    [ 50%]
+pruebas/test_seguridad.py::test_v2_bola_bloqueada_en_corregida PASSED    [ 55%]
+pruebas/test_seguridad.py::test_legitimo_login_y_nota_propia[vulnerable] PASSED [ 61%]
+pruebas/test_seguridad.py::test_legitimo_login_y_nota_propia[corregida] PASSED [ 66%]
+pruebas/test_seguridad.py::test_legitimo_clave_incorrecta_rechazada[vulnerable] PASSED [ 72%]
+pruebas/test_seguridad.py::test_legitimo_clave_incorrecta_rechazada[corregida] PASSED [ 77%]
+pruebas/test_seguridad.py::test_errores_genericos_en_corregida PASSED    [ 83%]
+pruebas/test_seguridad.py::test_rate_limiting_login PASSED               [ 88%]
+pruebas/test_seguridad.py::test_cabeceras_y_cookie_seguras PASSED        [ 94%]
+pruebas/test_seguridad.py::test_accesos_denegados_quedan_registrados PASSED [100%]
+
+============================== warnings summary ===============================
+..\..\..\..\..\AppData\Roaming\Python\Python313\site-packages\anyio\pytest_plugin.py:14
+  C:\Users\EQUIPO\AppData\Roaming\Python\Python313\site-packages\anyio\pytest_plugin.py:14: PytestRemovedIn10Warning: _pytest.python.CallSpec2 has been renamed to CallSpec.
+  The CallSpec2 alias will be removed in pytest 10.
+  Update imports to use CallSpec instead.
+  See https://docs.pytest.org/en/stable/deprecations.html#callspec2-renamed
+    from _pytest.python import CallSpec2
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================== 18 passed, 1 warning in 3.67s ========================

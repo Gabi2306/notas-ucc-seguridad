@@ -1,0 +1,33 @@
+name: seguridad
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  pruebas-y-analisis:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar dependencias
+        run: pip install -r requirements-dev.txt
+
+      - name: Pruebas de seguridad
+        run: pytest -v pruebas/
+
+      - name: Analisis estatico de la version corregida
+        run: bandit -r app_corregida -ll
+
+      - name: Analisis estatico de la version vulnerable (informativo)
+        run: bandit -r app_vulnerable || true
+
+      - name: Revision de dependencias
+        run: pip-audit -r requirements.txt

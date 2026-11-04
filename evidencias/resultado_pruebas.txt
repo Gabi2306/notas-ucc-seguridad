@@ -1,0 +1,77 @@
+
+=== V1-a SQLi en la clave (' OR '1'='1) contra la app VULNERABLE
+POST /login usuario='ana' clave="' OR '1'='1"  -> 200 {'ok': True, 'usuario': 'ana', 'usuario_id': 1}
+Resultado: login SIN clave real -> ataque LOGRADO
+
+=== V1-b SQLi dirigida a una cuenta concreta (luis' --) contra la app VULNERABLE
+POST /login usuario="luis' --" clave='cualquiera'  -> 200 {'ok': True, 'usuario': 'luis', 'usuario_id': 2}
+Resultado: sesión abierta como luis -> suplantación LOGRADA
+
+=== V1-a SQLi en la clave (' OR '1'='1) contra la app CORREGIDA
+POST /login usuario='ana' clave="' OR '1'='1"  -> 401 {'error': 'Credenciales inválidas', 'ok': False}
+Resultado: ataque bloqueado
+
+=== V1-b SQLi dirigida a una cuenta concreta (luis' --) contra la app CORREGIDA
+POST /login usuario="luis' --" clave='cualquiera'  -> 401 {'error': 'Credenciales inválidas', 'ok': False}
+Resultado: ataque bloqueado
+
+=== V2 BOLA: luis autenticado pide la nota 2 (de ana) en la app VULNERABLE
+POST /login usuario='luis' clave='luis2026'  -> 200 {'ok': True, 'usuario': 'luis', 'usuario_id': 2}
+GET /notas/2 (sesión de luis, la nota es de ana) -> 200 {'nota': {'calificacion': 4.8, 'id': 2, 'materia': 'Optativa', 'usuario_id': 1}, 'ok': True}
+Resultado: lectura de nota ajena LOGRADA
+
+=== V2 BOLA: luis autenticado pide la nota 2 (de ana) en la app CORREGIDA
+POST /login usuario='luis' clave='luis2026'  -> 200 {'ok': True, 'usuario': 'luis', 'usuario_id': 2}
+GET /notas/2 (sesión de luis, la nota es de ana) -> 403 {'error': 'No autorizado', 'ok': False}
+Resultado: acceso denegado
+
+=== Legítimo: luis lee su propia nota (3) en la app VULNERABLE
+GET /notas/3 (recurso propio) -> 200 {'nota': {'calificacion': 3.9, 'id': 3, 'materia': 'Ingeniería Web', 'usuario_id': 2}, 'ok': True}
+
+=== Legítimo: ana inicia sesión con su clave real en la app VULNERABLE
+POST /login usuario='ana' clave='ana2026'  -> 200 {'ok': True, 'usuario': 'ana', 'usuario_id': 1}
+
+=== Error seguro: petición sin sesión y nota inexistente en la app VULNERABLE
+GET /notas/1 (sin sesión) -> 401 {'error': 'No autenticado', 'ok': False}
+GET /notas/999 (no existe) -> 404 {'error': 'No existe', 'ok': False}
+
+=== Legítimo: luis lee su propia nota (3) en la app CORREGIDA
+GET /notas/3 (recurso propio) -> 200 {'nota': {'calificacion': 3.9, 'id': 3, 'materia': 'Ingeniería Web', 'usuario_id': 2}, 'ok': True}
+
+=== Legítimo: ana inicia sesión con su clave real en la app CORREGIDA
+POST /login usuario='ana' clave='ana2026'  -> 200 {'ok': True, 'usuario': 'ana', 'usuario_id': 1}
+
+=== Error seguro: petición sin sesión y nota inexistente en la app CORREGIDA
+GET /notas/1 (sin sesión) -> 401 {'error': 'No autenticado', 'ok': False}
+GET /notas/999 (no existe) -> 404 {'error': 'No existe', 'ok': False}
+
+=== Defensa en profundidad: cabeceras de seguridad en la app CORREGIDA
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Content-Security-Policy: default-src 'none'; frame-ancestors 'none'
+  Cache-Control: no-store
+
+=== Defensa en profundidad: rate limiting de /login en la app CORREGIDA
+7 intentos fallidos seguidos -> [401, 401, 401, 401, 401, 429, 429]
+Mismo intento en la app VULNERABLE (sin límite) -> 401
+
+=== RESUMEN (esperado vs. obtenido)
+Caso                             Versión     Esperado  Obtenido  Estado
+V1-a SQLi ' OR '1'='1            VULNERABLE  200       200       OK
+V1-b SQLi luis' --               VULNERABLE  200       200       OK
+V1-a SQLi ' OR '1'='1            CORREGIDA   401       401       OK
+V1-b SQLi luis' --               CORREGIDA   401       401       OK
+V2 BOLA nota ajena               VULNERABLE  200       200       OK
+V2 BOLA nota ajena               CORREGIDA   403       403       OK
+Legítimo: nota propia            VULNERABLE  200       200       OK
+Legítimo: login con clave real   VULNERABLE  200       200       OK
+Sin sesión                       VULNERABLE  401       401       OK
+Nota inexistente                 VULNERABLE  404       404       OK
+Legítimo: nota propia            CORREGIDA   200       200       OK
+Legítimo: login con clave real   CORREGIDA   200       200       OK
+Sin sesión                       CORREGIDA   401       401       OK
+Nota inexistente                 CORREGIDA   404       404       OK
+Cabeceras de seguridad           CORREGIDA   True      True      OK
+Rate limiting (7.º intento)      CORREGIDA   429       429       OK
+
+16/16 casos con el resultado esperado.
