@@ -86,6 +86,12 @@ En la versión corregida, los dos ataques de inyección reciben 401, la lectura 
 
 La prueba de concepto dio 16 de 16 casos correctos y las pruebas automatizadas 18 de 18. Bandit encontró dos problemas en la versión vulnerable (CWE-89 y CWE-259) y ninguno en la corregida.
 
+## Reflexión profesional
+
+No sería aceptable desplegar el sistema con estas vulnerabilidades para cumplir una fecha y corregirlas después. El daño lo asumirían estudiantes que no tomaron esa decisión y que ni siquiera sabrían que alguien vio sus notas o entró con su cuenta. Los riesgos eran crítico y alto, y corregirlos costó pocas líneas de código. Además, las calificaciones son datos personales protegidos por la Ley 1581 de 2012, y quien desarrolla responde por las consecuencias previsibles de lo que entrega.
+
+Como equipo proponemos llevar la seguridad a todo el ciclo de vida: casos de abuso en los requisitos, reglas claras de quién puede ver qué en el diseño, solo consultas parametrizadas en el código, pruebas de ataque automatizadas y una integración continua que detenga cualquier cambio inseguro antes de desplegarlo.
+
 ## Referencias
 
 - OWASP Foundation. (2025). OWASP Top 10:2025. https://owasp.org/Top10/
